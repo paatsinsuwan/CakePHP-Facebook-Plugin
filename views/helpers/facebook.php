@@ -468,9 +468,6 @@ class FacebookHelper extends AppHelper {
 			$init .= $this->Html->scriptBlock(
 <<<JS
 window.fbAsyncInit = function() {
-	//  init with fb_options param
-	//  old params -->
-	//	 <--
 	FB.init({
 		appId : '{$appId}',
 		session : {$session}, // don't refetch the session when PHP already has it
@@ -481,7 +478,6 @@ window.fbAsyncInit = function() {
 	});
 	{$callback}
 };
-console.log(eval($string));
 (function() {
 	var e = document.createElement('script');
 	e.src = document.location.protocol + '//connect.facebook.net/{$this->locale}/all.js#appId={$appId}&amp;xfbml=1';
