@@ -444,7 +444,7 @@ class FacebookHelper extends AppHelper {
 	
 	/**
 	* HTML XMLNS tag (required)
-	* @param array $options
+	* @param array $options('status' => false) as default change to true for auto login
 	* @example $this->Facebook->init();
 	* @return string of scriptBlock for FB.init() or error
 	*/
@@ -459,20 +459,29 @@ class FacebookHelper extends AppHelper {
 			} else {
 				$callback = "if(typeof(facebookReady)=='function'){facebookReady()}";
 			}
+			// check status option for auto-login if user is logged in to Facebook
+			$status = 'false';
+			if($options['status']){
+				$status = 'true';
+			}
 			$init = '<div id="fb-root"></div>';
 			$init .= $this->Html->scriptBlock(
 <<<JS
 window.fbAsyncInit = function() {
+	//  init with fb_options param
+	//  old params -->
+	//	 <--
 	FB.init({
 		appId : '{$appId}',
 		session : {$session}, // don't refetch the session when PHP already has it
-		status : true, // check login status
+		status : {$status}, // check login status, set it to false for non-auto-login
 		cookie : true, // enable cookies to allow the server to access the session
 		xfbml : true, // parse XFBML
 		oauth : true // use Oauth
 	});
 	{$callback}
 };
+console.log(eval($string));
 (function() {
 	var e = document.createElement('script');
 	e.src = document.location.protocol + '//connect.facebook.net/{$this->locale}/all.js#appId={$appId}&amp;xfbml=1';
