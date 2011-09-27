@@ -459,9 +459,8 @@ class FacebookHelper extends AppHelper {
 			} else {
 				$callback = "if(typeof(facebookReady)=='function'){facebookReady()}";
 			}
-			// check status option for auto-login if user is logged in to Facebook
 			$status = 'false';
-			if($options['status']){
+			if(!empty($options['status'])){
 				$status = 'true';
 			}
 			$init = '<div id="fb-root"></div>';
@@ -469,12 +468,12 @@ class FacebookHelper extends AppHelper {
 <<<JS
 window.fbAsyncInit = function() {
 	FB.init({
-		appId : '{$appId}',
+		appId : {$appId},
 		session : {$session}, // don't refetch the session when PHP already has it
 		status : {$status}, // check login status, set it to false for non-auto-login
 		cookie : true, // enable cookies to allow the server to access the session
 		xfbml : true, // parse XFBML
-		oauth : true // use Oauth
+		oAuth: true
 	});
 	{$callback}
 };
